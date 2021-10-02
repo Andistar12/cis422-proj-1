@@ -30,7 +30,7 @@ jobs:
 
               # Notify of build status
             - name: "Notify Discord"
-              uses: saritsia/actions-status-discord@v1
+              uses: sarisia/actions-status-discord@v1
               if: ${{ always() }}
               with:
                   webhook: ${{ secrets.DISCORD_WEBHOOK }}
