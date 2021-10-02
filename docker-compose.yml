@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+    tsp:
+        build: .
+        container_name: cis422_tsp
+        tty: true
+        environment:
+            - CONFIG_LOC=/run/secrets/config
+        volumes:
+            - .:/app
+            - ./config.json:/run/secrets/config
