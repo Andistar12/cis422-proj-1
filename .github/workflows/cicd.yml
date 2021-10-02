@@ -1,0 +1,43 @@
+name: Build and push to GCP
+
+on: [push]
+
+jobs:
+    build-tsp:
+        runs-on: ubuntu-latest
+        steps:
+            # Checkout the code
+            - name: "Checkout"
+              uses: actions/checkout@v2
+
+            # Actually build the image
+            - name: "Build image"
+              run: docker build -t ${{ secrets.TSP_PROD_TAG }} .
+
+            # Authenticate with GCP
+            - name: "Login to Google Cloud"
+              uses: google-github-actions/setup-gcloud@v0.2.0
+              with:
+                  service_account_key: ${{ secrets.GCLOUD_KEY }}
+
+			# Authenticate Docker with GCP
+            - name: "Login to Docker"
+              run: gcloud auth configure-docker
+
+			# Push to the 
+            - name: Push to registry
+              run: docker push ${{ secrets.TSP_PROD_TAG }}
+
+			# Notify of build status
+            - name: "Notify Discord"
+              uses: saritsia/actions-status-discord@v1
+              if: ${{ always() }}
+              with:
+                  webhook: ${{ secrets.DISCORD_WEBHOOK }}
+                  status: ${{ job.status }}
+                  title: "Build and push Docker image"
+                  nofail: true
+                  nodetail: false
+                  color: 0x2d7daa
+                  username: GitHub Actions
+                  avatar_url: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
