@@ -2,9 +2,13 @@ version: '3.4'
 
 services:
     tsp:
-        build: .
+        build: 
+            context: .
+            target: dev
         container_name: cis422_tsp
         tty: true
+        ports:
+            - 5000:5000
         environment:
             - CONFIG_LOC=/run/secrets/config
         volumes:

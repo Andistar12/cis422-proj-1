@@ -11,6 +11,21 @@ import tsp # Our TSP solver
 app = flask.Flask(__name__)
 
 
+# Read files from config 
+try:
+    cfgfile = open(os.environ["CONFIG_LOC"])
+    config = json.load(cfgfile)
+    cfgfile.close()
+except Exception:
+    logging.getLogger("backend").error("Error occurred opening config file", exc_info=True)
+    config = {}
+
+# Fetch config parameters
+app.port = config.get("port", 27017)
+app.secret_key = config.get("secret_key", "")
+app.gapi_key = config.get("gapi_key", "")
+
+
 # Page endpoints
 
 @app.route("/")
@@ -52,20 +67,6 @@ def tsp():
 
 
 if __name__ == "__main__":
-    # Read files from config 
-    try:
-        cfgfile = open(os.environ["CONFIG_LOC"])
-        config = json.load(cfgfile)
-        cfgfile.close()
-    except Exception:
-        logging.getLogger("backend").error("Error occurred opening config file", exc_info=True)
-        config = {}
-
-    # Fetch config parameters
-    app.port = config.get("port", 27017)
-    app.secret_key = config.get("secret_key", "")
-    app.gapi_key = config.get("gapi_key", "")
-
     # Run app
     print(f"Launching flask app on port {app.port}")
     app.run(port=app.port, host="0.0.0.0", debug=False)
