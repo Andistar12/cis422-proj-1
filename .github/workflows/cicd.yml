@@ -12,7 +12,7 @@ jobs:
 
               # Actually build the image
             - name: "Build image"
-              run: docker build -t ${{ secrets.TSP_PROD_TAG }} .
+              run: docker build -t ${{ secrets.TSP_PROD_TAG }} --target prod .
 
               # Authenticate with GCP
             - name: "Login to Google Cloud"
