@@ -34,7 +34,7 @@ def index():
     """
     Returns the index page
     """
-    return flask.render_template("index.html")
+    return flask.render_template("index.html", API_KEY=app.gapi_key)
 
 
 @app.errorhandler(404)

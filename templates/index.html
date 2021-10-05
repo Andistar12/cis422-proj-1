@@ -18,7 +18,18 @@
 </head>
 <body>
 
+    <script src="/static/script.js"></script>
+
     <p>Hello World!</p>
+
+    <div id="google-map"></div>
+
+    <script>
+        var scriptTag = document.createElement("script");
+        scriptTag.src = "https://maps.googleapis.com/maps/api/js?key={{ API_KEY }}&callback=initMap&v=weekly"
+        scriptTag.async = true;
+        document.head.appendChild(scriptTag);
+    </script>
 
 </body>
 </html>
