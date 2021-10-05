@@ -6,7 +6,7 @@ var markers = [];
 
 var map;
 function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("google-map"), {
         center: {lat:  44.0457, lng: -123.0772}, //latitude/longitude of Anstett Hall
         zoom: 18,
         streetViewControl: false
