@@ -64,7 +64,7 @@ def tsp():
 
     # TODO parse the matrix from the request data, get the TSP answer
     # And send it back
-    mtx = request.json["mtx"]
+    mtx = flask.request.json["mtx"]
     answer = tsp.tsp(mtx)
 
     result = {
