@@ -13,7 +13,7 @@ def tsp(mtx):
     Parameters:
      - mtx: The square adjacency matrix
     Returns:
-     - A length n list of the calculated permutation
+     - A length n list of the calculated permutation, where 0 is always the first entry
     """
 
     # Number of nodes
