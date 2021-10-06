@@ -1,3 +1,4 @@
+# Brings up the development server via a docker compose script
 version: '3.4'
 
 services:
