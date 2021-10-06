@@ -15,4 +15,3 @@ CMD ["python3", "backend.py"]
 # Setup production environment
 FROM dev AS prod
 COPY . /app
-CMD ["gunicorn", "--bind", "0.0.0.0:443", "wsgi:app"]
