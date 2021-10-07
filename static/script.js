@@ -20,15 +20,30 @@ function initMap() {
 
     //watch for click events on the map and add a marker at the click point
     map.addListener("click", function(event) {
+		//increment the number of markers and save the index of this marker
+		var markerID = markerCount++;
 		//initialize a new marker at the location of the click
         var marker = new google.maps.Marker({
             position: event.latLng,
             map,
-            title: "Marker #" + markerCount //shown when marker is hovered on
+            title: "Marker #" + markerID //shown when marker is hovered on
         });
         
-        //assign unique identifier to this marker and increment count
-        marker.id = markerCount++;
+        //add an entry to the list of markers 
+        $("#marker-list").append(
+			$("<div>")
+				.text(function() {
+					//label each entry with the marker's number and coordinates
+					var s = "Marker #" + markerID + ": ";
+					s += event.latLng.lat() + ", ";
+					s += event.latLng.lng();
+					return s
+				})
+				.attr("id", "marker-" + markerID)
+        );
+        
+        //assign unique identifier to this marker
+        marker.id = markerID;
         
         //watch for click events on the marker and remove the marker if clicked
         marker.addListener("click", function(event) {
@@ -38,6 +53,8 @@ function initMap() {
             while (markers[index].id != marker.id) index++;
             //remove this marker from the list
             markers.splice(index, 1);
+            //remove the marker's entry from the list of markers
+            $("#marker-" + marker.id).remove();
         });
         //add the marker to the list of markers
         markers.push(marker);
