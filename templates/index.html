@@ -1,39 +1,44 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html>
-<head>
-    <title>TSP Solver</title>
+{% extends "parent_layout.html" %}
+{% set active_page = "tsp" %}
+{% block content %}
 
-    <!-- 'viewport' is used by bootstrap to respond to device size -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="container-fluid text-center" style="height:80%;">
 
-    <!-- Javascript: JQuery from a content distribution network (CDN) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <br>
 
-    <!-- Bootstrap includes javascript and css  (must follow jquery) -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"> </script>
+    <div class="row h-100">
+        <div class="col-4 h-100">
 
-    <!-- Our own style sheet -->
-    <link rel="stylesheet" href="/static/style.css" />
-</head>
-<body>
+            <div class="row d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-primary" onclick="clearMarkers()">Clear Markers</button>
+                <button type="button" class="btn btn-outline-primary" onclick="computePath()">Compute Path</button>
+            </div>
 
-    <script src="/static/script.js"></script>
+            <br>
 
-    <p>Hello World! This is our TSP project.</p>
+            <div id="marker-list">
+                <p><strong>Markers</strong>:</p>
+            </div>
 
-    <div id="google-map"></div>
-    
-    <div id="marker-list">
-        <p><strong>Markers</strong>:</p>
+        </div>
+        <div class="col-8 h-100">
+
+            <div class="h-100 border" id="google-map"></div>
+            <script>
+                var scriptTag = document.createElement("script");
+                scriptTag.src = "https://maps.googleapis.com/maps/api/js?key={{ API_KEY }}&callback=initMap&v=weekly"
+                scriptTag.async = true;
+                document.head.appendChild(scriptTag);
+            </script>
+
+        </div>
     </div>
 
-    <script>
-        var scriptTag = document.createElement("script");
-        scriptTag.src = "https://maps.googleapis.com/maps/api/js?key={{ API_KEY }}&callback=initMap&v=weekly"
-        scriptTag.async = true;
-        document.head.appendChild(scriptTag);
-    </script>
+    <br>
 
-</body>
-</html>
+    <div class="row">
+        <div class="text-center col-12" id="path-list">Optimal path: 0</div>
+    </div>
+</div>
+
+{% endblock %}
