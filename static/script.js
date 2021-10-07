@@ -4,6 +4,8 @@
 
 //holds Marker objects signifying destinations for the salesman
 var markers = [];
+//holds the total number of markers that have been added to the map
+var markerCount = 0;
 
 //Google Maps API object
 var map;
@@ -22,11 +24,20 @@ function initMap() {
         var marker = new google.maps.Marker({
             position: event.latLng,
             map,
-            title: "My Marker"
+            title: "Marker #" + markerCount //shown when marker is hovered on
         });
+        
+        //assign unique identifier to this marker and increment count
+        marker.id = markerCount++;
+        
         //watch for click events on the marker and remove the marker if clicked
         marker.addListener("click", function(event) {
             marker.setMap(null);
+            //find index of this marker in the list
+            var index = 0;
+            while (markers[index].id != marker.id) index++;
+            //remove this marker from the list
+            markers.splice(index, 1);
         });
         //add the marker to the list of markers
         markers.push(marker);
