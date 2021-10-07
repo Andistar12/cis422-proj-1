@@ -10,9 +10,9 @@ var markerCount = 0;
 //Google Maps API object
 var map;
 function initMap() {
-	//initialize a Google Maps object with the google-map DOM element
+    //initialize a Google Maps object with the google-map DOM element
     map = new google.maps.Map(document.getElementById("google-map"), {
-		//initialize the starting position of the map
+        //initialize the starting position of the map
         center: {lat:  44.0458, lng: -123.0711}, //latitude/longitude of Deschutes Hall
         zoom: 19,
         streetViewControl: false
@@ -20,9 +20,9 @@ function initMap() {
 
     //watch for click events on the map and add a marker at the click point
     map.addListener("click", function(event) {
-		//increment the number of markers and save the index of this marker
-		var markerID = markerCount++;
-		//initialize a new marker at the location of the click
+        //increment the number of markers and save the index of this marker
+        var markerID = markerCount++;
+        //initialize a new marker at the location of the click
         var marker = new google.maps.Marker({
             position: event.latLng,
             map,
@@ -31,15 +31,15 @@ function initMap() {
         
         //add an entry to the list of markers 
         $("#marker-list").append(
-			$("<div>")
-				.text(function() {
-					//label each entry with the marker's number and coordinates
-					var s = "Marker #" + markerID + ": ";
-					s += event.latLng.lat() + ", ";
-					s += event.latLng.lng();
-					return s
-				})
-				.attr("id", "marker-" + markerID)
+            $("<div>")
+                .text(function() {
+                    //label each entry with the marker's number and coordinates
+                    var s = "Marker #" + markerID + ": ";
+                    s += event.latLng.lat() + ", ";
+                    s += event.latLng.lng();
+                    return s
+                })
+                .attr("id", "marker-" + markerID)
         );
         
         //assign unique identifier to this marker
