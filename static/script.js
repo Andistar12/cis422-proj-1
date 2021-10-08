@@ -57,6 +57,9 @@ function initMap() {
             markers.splice(index, 1);
             //remove the marker's entry from the list of markers
             $("#marker-" + marker.id).remove();
+            if (markers.length === 0) {
+                markerCount = 0;
+            }
         });
         //add the marker to the list of markers
         markers.push(marker);
