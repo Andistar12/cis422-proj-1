@@ -62,3 +62,23 @@ function initMap() {
         markers.push(marker);
     });
 }
+
+//removes all markers from the map and resets marker count
+function clearMarkers() {
+    var length = markers.length;
+    for (var i = 0; i < length; i++) {
+        var marker = markers[i];
+        //for each marker object in the list, remove it from the map
+        marker.setMap(null);
+        //remove the marker's associated entry in the marker table
+        $("#marker-" + marker.id).remove();
+    }
+    //reset the list of markers
+    markers = [];
+    //reset the marker count, so new markers start at 0
+    markerCount = 0;
+}
+
+function computePath() {
+    return;
+}
