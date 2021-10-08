@@ -31,6 +31,7 @@ except Exception:
 # Fetch config parameters
 app.port = config.get("port", 27017)
 app.secret_key = config.get("secret_key", "")
+app.debug = config.get("debug", True)
 app.gapi_key = config.get("gapi_key", "")
 
 
@@ -77,4 +78,4 @@ def tsp():
 if __name__ == "__main__":
     # Run app
     print(f"Launching flask app on port {app.port}")
-    app.run(port=app.port, host="0.0.0.0", debug=False)
+    app.run(port=app.port, host="0.0.0.0", debug=app.debug)
