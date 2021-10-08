@@ -37,7 +37,7 @@ function initMap() {
                     var s = "Marker #" + markerID + ": ";
                     s += event.latLng.lat() + ", ";
                     s += event.latLng.lng();
-                    return s
+                    return s;
                 })
                 .attr("id", "marker-" + markerID)
         );
