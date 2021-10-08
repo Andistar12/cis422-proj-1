@@ -50,7 +50,9 @@ function initMap() {
             marker.setMap(null);
             //find index of this marker in the list
             var index = 0;
-            while (markers[index].id != marker.id) index++;
+            while (markers[index].id != marker.id) {
+                index++;
+            }
             //remove this marker from the list
             markers.splice(index, 1);
             //remove the marker's entry from the list of markers
