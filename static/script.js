@@ -31,8 +31,8 @@ function initMap() {
         
         //add an entry to the list of markers 
         $("#marker-list").append(
-            $("<div>")
-                .text(function() {
+            $("<a>")
+                .html(function() {
                     //label each entry with the marker's number and coordinates
                     var s = "Marker #" + markerID + ": ";
                     s += event.latLng.lat() + ", ";
@@ -40,6 +40,7 @@ function initMap() {
                     return s;
                 })
                 .attr("id", "marker-" + markerID)
+                .attr("class", "list-group-item")
         );
         
         //assign unique identifier to this marker
