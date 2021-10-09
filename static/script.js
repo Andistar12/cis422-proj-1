@@ -47,7 +47,7 @@ function initMap() {
         marker.id = markerID;
         
         //watch for click events on the marker and remove the marker if clicked
-        marker.addListener("click", function(event) {
+        marker.addListener("click", function() {
             marker.setMap(null);
             //find index of this marker in the list
             var index = 0;
@@ -83,6 +83,58 @@ function clearMarkers() {
     markerCount = 0;
 }
 
+//starts the process of computing the optimal path through the markers
 function computePath() {
-    return;
+    //exit if there are no markers on the map
+    if (markers.length === 0) {
+        return;
+    }
+    //holds origin locations for the API to compute distances
+    var origins = [];
+    //holds destination locations for the API to compute distances
+    var destinations = [];
+    var length = markers.length;
+    //iterate over markers on map, adding their positions to the arrays
+    for (var i = 0; i < length; i++) {
+        var lat = markers[i].position.lat();
+        var lng = markers[i].position.lng();
+        //instantiate a LatLng object with the marker's position
+        var latLng = new google.maps.LatLng(lat, lng);
+        origins.push(latLng);
+        destinations.push(latLng);
+    }
+    //instantiate an object to send requests to the server
+    var service = new google.maps.DistanceMatrixService();
+    //request a distance matrix between origins and destinations
+    //after the request is processed, distanceCallback will be called
+    service.getDistanceMatrix({
+        origins: origins,
+        destinations: destinations,
+        travelMode: "DRIVING"
+    }, distanceCallback)
+}
+
+//called when the API responds to a distance matrix request
+function distanceCallback(response, status) {
+    //if distances were not calculated, report the status to the console
+    if (status !== "OK") {
+        console.error(status);
+        return;
+    }
+    //2D matrix that holds distances between markers
+    var matrix = [];
+    //extract information from the response object
+    var rows = response.rows;
+    var length = rows.length;
+    //iterate over the rows object from the response
+    for (var i = 0; i < length; i++) {
+        //append a new row to the matrix
+        matrix.push([]);
+        for (var j = 0; j < length; j++) {
+            //append the distance from marker i to marker j
+            //to the end of the current row
+            var value = rows[i].elements[j].distance.value;
+            matrix[i].push(value);
+        }
+    }
 }
