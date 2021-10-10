@@ -25,6 +25,7 @@ function initMap() {
         //initialize a new marker at the location of the click
         var marker = new google.maps.Marker({
             position: event.latLng,
+            draggable: true,
             map,
             title: "Marker #" + markerID //shown when marker is hovered on
         });
@@ -47,19 +48,27 @@ function initMap() {
                 markerCount = 0;
             }
         }
+
+        //returns the text of this marker's entry in the list
+        //used initially and when marker is dragged
+        function getLabel() {
+            var s = "Marker #" + markerID + ": ";
+            s += marker.position.lat() + ", ";
+            s += marker.position.lng();
+            return s;
+        }
         
         //add an entry to the list of markers
+        //each entry is an <a> that has two <span> children
+        //the first span holds the latitude and longitude of the marker
+        //the second holds a button to remove the marker from the map
         $("#marker-list").append(
             $("<a>")
-                .html(function() {
-                    //label each entry with the marker's number and coordinates
-                    var s = "Marker #" + markerID + ": ";
-                    s += event.latLng.lat() + ", ";
-                    s += event.latLng.lng();
-                    return s;
-                })
                 .attr("id", "marker-" + markerID)
                 .addClass("list-group-item")
+                .append($("<span>")
+                    .html(getLabel)
+                )
                 .append($("<span>")
                     .html("&#x2715;")
                     .attr("class", "x-btn")
@@ -72,6 +81,10 @@ function initMap() {
         
         //watch for click events on the marker and remove the marker if clicked
         marker.addListener("click", removeMarker);
+        //update the latitude/longitude of the marker as it is dragged
+        marker.addListener("drag", function() {
+            $("span", "#marker-" + markerID).eq(0).html(getLabel);
+        });
         //add the marker to the list of markers
         markers.push(marker);
     });
