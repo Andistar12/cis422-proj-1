@@ -28,26 +28,11 @@ function initMap() {
             map,
             title: "Marker #" + markerID //shown when marker is hovered on
         });
-        
-        //add an entry to the list of markers 
-        $("#marker-list").append(
-            $("<a>")
-                .html(function() {
-                    //label each entry with the marker's number and coordinates
-                    var s = "Marker #" + markerID + ": ";
-                    s += event.latLng.lat() + ", ";
-                    s += event.latLng.lng();
-                    return s;
-                })
-                .attr("id", "marker-" + markerID)
-                .attr("class", "list-group-item")
-        );
-        
-        //assign unique identifier to this marker
-        marker.id = markerID;
-        
-        //watch for click events on the marker and remove the marker if clicked
-        marker.addListener("click", function() {
+
+        //function to remove this marker from the map
+        //this function is "bound" to the marker created above
+        //this function is called when a marker or its "x" button is clicked
+        function removeMarker() {
             marker.setMap(null);
             //find index of this marker in the list
             var index = 0;
@@ -61,7 +46,32 @@ function initMap() {
             if (markers.length === 0) {
                 markerCount = 0;
             }
-        });
+        }
+        
+        //add an entry to the list of markers
+        $("#marker-list").append(
+            $("<a>")
+                .html(function() {
+                    //label each entry with the marker's number and coordinates
+                    var s = "Marker #" + markerID + ": ";
+                    s += event.latLng.lat() + ", ";
+                    s += event.latLng.lng();
+                    return s;
+                })
+                .attr("id", "marker-" + markerID)
+                .addClass("list-group-item")
+                .append($("<span>")
+                    .html("&#x2715;")
+                    .attr("class", "x-btn")
+                    .click(removeMarker)
+                )
+        );
+        
+        //assign unique identifier to this marker
+        marker.id = markerID;
+        
+        //watch for click events on the marker and remove the marker if clicked
+        marker.addListener("click", removeMarker);
         //add the marker to the list of markers
         markers.push(marker);
     });

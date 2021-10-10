@@ -7,7 +7,7 @@
 
 html, body {
     height: 100%;
-    width: 100%
+    width: 100%;
     margin: 0;
     padding: 0;
 }
@@ -22,4 +22,11 @@ html, body {
 
 .btn-toggle-text.collapsed div {
     display: none;
+}
+
+.x-btn {
+    display: inline-block;
+    opacity: .5;
+    margin-left: 8px;
+    cursor: pointer;
 }
