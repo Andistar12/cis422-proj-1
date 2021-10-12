@@ -160,4 +160,11 @@ function distanceCallback(response, status) {
             matrix[i].push(value);
         }
     }
+
+    // Call the backend and on return
+    $.post($SCRIPT_ROOT + "/_solve_tsp", { mtx: matrix }).done(function(){
+        alert("Server returned data: " + data);
+    }).fail(function(jqXHR) {
+        alert("Server returned status: " + jqXHR.status);
+    });
 }
