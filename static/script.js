@@ -162,7 +162,7 @@ function distanceCallback(response, status) {
     }
 
     // Call the backend and on return
-    $.post($SCRIPT_ROOT + "/_solve_tsp", { mtx: matrix }).done(function(){
+    $.post($SCRIPT_ROOT + "/_solve_tsp", { mtx: matrix }).done(function(data){
         alert("Server returned data: " + data);
     }).fail(function(jqXHR) {
         alert("Server returned status: " + jqXHR.status);
