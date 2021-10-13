@@ -1,5 +1,3 @@
-import math
-
 # find an optimal path between multiple points
 
 def tsp(mtx):
@@ -20,30 +18,25 @@ def tsp(mtx):
 
     # Number of nodes
     n = len(mtx)
-    selected=[0 for _ in range(n)]
+    selected = [0 for _ in range(n)]
     selected[0] = 1
-    numedges=0
-    MST=[]
+    numedges = 0
+    MST = []
 
-    while(len(MST)<n):
-        min=math.inf
-        node=0
+    while(len(MST) < n):
+        min = float("inf")
+        node = 0
         for i in range(n):
             if selected[i]:
                 if i not in MST:
                     MST.append(i)
                 for j in range(n):
                     if (not selected[j]) and (mtx[i][j]):
-                        if mtx[i][j]<min:
-                            min=mtx[i][j]
-                            node=j
-        selected[node]=1
-        numedges+=1
+                        if mtx[i][j] < min:
+                            min = mtx[i][j]
+                            node = j
+        selected[node] = 1
+        numedges += 1
     return MST
-
-
-    # For now, return nodes in sequential order
-    # TODO write actual algorithm
-    # return [x for x in range(n)]
 
 
