@@ -5,7 +5,7 @@ import sys # Used to access command-line parameters
 import json # Used for config loading
 import logging # Used for logging
 import flask # Used as the backend and for webpage rendering
-import tsp # Our TSP solver
+import tsp as tsp_solver # Our TSP solver
 
 # Global variables
 
@@ -65,8 +65,8 @@ def tsp():
 
     # TODO parse the matrix from the request data, get the TSP answer
     # And send it back
-    mtx = flask.request.json["mtx"]
-    answer = tsp.tsp(mtx)
+    mtx = flask.request.get_json(force=True)["mtx"]
+    answer = tsp_solver.tsp(mtx)
 
     result = {
         "answer": answer
