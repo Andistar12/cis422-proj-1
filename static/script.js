@@ -162,9 +162,17 @@ function distanceCallback(response, status) {
     }
 
     // Call the backend and on return
-    $.post($SCRIPT_ROOT + "/_solve_tsp", { mtx: matrix }).done(function(){
-        alert("Server returned data: " + data);
-    }).fail(function(jqXHR) {
-        alert("Server returned status: " + jqXHR.status);
-    });
+    $.ajax({
+        type: "POST",
+        url: $SCRIPT_ROOT + "/_solve_tsp",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({ mtx: matrix }),
+        success: function(data){
+            alert("Server returned data: " + data.result.answer);
+        },
+        error: function(jqXHR) {
+            alert("Server returned status: " + jqXHR.status);
+        }
+    })
 }
