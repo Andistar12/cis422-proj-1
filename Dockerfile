@@ -1,4 +1,11 @@
-# Builds the Docker containier for the app
+# Builds the Docker container to package the app
+# To build this container for a development environment, run the following:
+# 
+#   docker build -t <tag> --target dev .
+#
+# For production, run the following:
+# 
+#   docker build -t <tag> --target prod .
 
 # Init the containter and update it
 FROM python:3.8 AS dev

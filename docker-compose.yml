@@ -1,7 +1,13 @@
-# Brings up the development server via a docker compose script
+# Deploys a development server of the app via Docker (and docker-compose)
+#
+# To bring up the development server, run the following
+#
+#   docker-compose up --build
+
 version: '3.4'
 
 services:
+    # The app container
     tsp:
         build: 
             context: .
