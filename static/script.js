@@ -14,7 +14,7 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("google-map"), {
         //initialize the starting position of the map
         center: {lat:  44.0458, lng: -123.0711}, //latitude/longitude of Deschutes Hall
-        zoom: 19,
+        zoom: 17,
         streetViewControl: false
     });
 
@@ -104,6 +104,7 @@ function clearMarkers() {
     markers = [];
     //reset the marker count, so new markers start at 0
     markerCount = 0;
+    $("#path-list").text("None");
 }
 
 //starts the process of computing the optimal path through the markers
@@ -169,7 +170,15 @@ function distanceCallback(response, status) {
         dataType: "json",
         data: JSON.stringify({ mtx: matrix }),
         success: function(data){
-            alert("Server returned data: " + data.result.answer);
+            var answer = data.result.answer;
+            //transform list of indices to list of IDs
+            var ids = [];
+            for (var i = 0; i < answer.length; i++) {
+                ids.push(markers[answer[i]].id);
+            }
+            var s = ids.join(", ");
+            //display the optimal path to the user
+            $("#path-list").text(s);
         },
         error: function(jqXHR) {
             alert("Server returned status: " + jqXHR.status);
