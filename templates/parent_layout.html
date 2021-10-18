@@ -19,9 +19,10 @@
 
         <!-- Our own JS -->
         <script src="/static/script.js"></script>
+        <script src="/static/install_pwa.js"></script>
 
         <!-- Serves our app manifest -->
-        <link rel="manifest" href="static/manifest.json">
+        <link rel="manifest" href="/static/manifest.json">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="application-name" content="Route Finder">
@@ -30,8 +31,8 @@
         <meta name="msapplication-navbutton-color" content="#2974ce">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="msapplication-starturl" content="/">
-        <link rel="icon" type="image/png" sizes="200x200" href="static/logo-small.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="200x200" href="static/logo-small.png">
+        <link rel="icon" type="image/png" sizes="200x200" href="/static/logo-small.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="200x200" href="/static/logo-small.png">
 
         <!-- Setup the service worker-->
         <script>
@@ -56,6 +57,9 @@
                 <ul class="navbar-nav mr-auto">
 					<li{% if "tsp" == active_page %} class="nav-item active"{% else %} class="nav-item" {% endif%}>
 						<a class="nav-link" href="/">TSP Solver</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" href="javascript:void(0)" onclick="installPWA()">Add to home screen</a>
 					</li>
                 </ul>
             </div>
