@@ -1,0 +1,16 @@
+{
+    "name": "Route Finder",
+    "short_name": "Route Finder",
+    "description": "Find optimal routes to all your destinations!",
+    "lang": "en-US",
+    "start_url": "/",
+    "display": "fullscreen",
+    "theme_color": "#2974ce",
+    "icons": [
+      {
+        "src": "static/logo-small.png",
+        "sizes": "200x200",
+        "type": "image/png"
+      }
+    ]
+  }
