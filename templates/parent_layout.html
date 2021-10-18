@@ -32,6 +32,15 @@
         <meta name="msapplication-starturl" content="/">
         <link rel="icon" type="image/png" sizes="200x200" href="static/logo-small.png">
         <link rel="apple-touch-icon" type="image/png" sizes="200x200" href="static/logo-small.png">
+
+        <!-- Setup the service worker-->
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('static/sw.js');
+                });
+            }
+        </script>
     </head>
     <body>
 
