@@ -2,14 +2,18 @@
 
 "use strict";
 
+var apiKey;
 //holds Marker objects signifying destinations for the salesman
 var markers = [];
 //holds the total number of markers that have been added to the map
 var markerCount = 0;
 
+$(initSearch);
+
 //Google Maps API object
 var map;
 function initMap() {
+    apiKey = window.__nope_apiKey;
     //initialize a Google Maps object with the google-map DOM element
     map = new google.maps.Map(document.getElementById("google-map"), {
         //initialize the starting position of the map
@@ -184,4 +188,28 @@ function distanceCallback(response, status) {
             alert("Server returned status: " + jqXHR.status);
         }
     })
+}
+
+function initSearch() {
+    $("#txf-search-location").keydown(function(event) {
+        if (event.key === "Enter") {
+            searchLocation();
+        }
+    });
+}
+
+function searchLocation() {
+    var search = $("#txf-search-location").prop("value");
+    var data = {address: search, key: apiKey};
+    var url = "https://maps.googleapis.com/maps/api/geocode/json";
+    jQuery.get(url, data, function(data) {
+        if (data.status !== "OK") {
+            console.error(data.status);
+            return;
+        }
+        console.log(data);
+        var location = data.results[0].geometry.location;
+        map.panTo(location);
+        map.setZoom(18);
+    });
 }
