@@ -211,5 +211,7 @@ function searchLocation() {
         var location = data.results[0].geometry.location;
         map.panTo(location);
         map.setZoom(18);
+    }).fail(function(jqXHR, status, error) {
+        console.log(jqXHR, status, error);
     });
 }
