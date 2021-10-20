@@ -30,3 +30,12 @@ html, body {
     margin-left: 8px;
     cursor: pointer;
 }
+
+.modal-header {
+    background: #007bff;
+}
+
+.close, .modal-title {
+    color: white;
+    background: #007bff;
+}
