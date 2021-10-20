@@ -8,6 +8,7 @@ var markers = [];
 //holds the total number of markers that have been added to the map
 var markerCount = 0;
 
+//initialize the search when the document is ready
 $(initSearch);
 
 //Google Maps API object
@@ -190,6 +191,7 @@ function distanceCallback(response, status) {
     })
 }
 
+//add a listener to the search bar to search on enter
 function initSearch() {
     $("#txf-search-location").keydown(function(event) {
         if (event.key === "Enter") {
@@ -198,18 +200,24 @@ function initSearch() {
     });
 }
 
+//pan to the location searched in the search bar
 function searchLocation() {
+    //extract the term from the search bar
     var search = $("#txf-search-location").prop("value");
     if (!search) return;
-    var data = {address: search, key: apiKey};
+    var data = {address: search, key: apiKey}; //data sent to the service
+    //Google's Geocoding API
     var url = "https://maps.googleapis.com/maps/api/geocode/json";
+    //send a GET request to the server with the data
     jQuery.get(url, data, function(data) {
-        if (data.status !== "OK") {
+        if (data.status !== "OK") { //fail if server returned an error
             console.error(data.status);
             return;
         }
         console.log(data);
+        //extract location data for the first search result
         var location = data.results[0].geometry.location;
+        //move the map to the requested location
         map.panTo(location);
         map.setZoom(18);
     }).fail(function(jqXHR, status, error) {
