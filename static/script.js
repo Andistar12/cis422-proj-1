@@ -200,6 +200,7 @@ function initSearch() {
 
 function searchLocation() {
     var search = $("#txf-search-location").prop("value");
+    if (!search) return;
     var data = {address: search, key: apiKey};
     var url = "https://maps.googleapis.com/maps/api/geocode/json";
     jQuery.get(url, data, function(data) {
