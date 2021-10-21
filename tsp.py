@@ -1,7 +1,7 @@
 # find an optimal path between multiple points
 
 """ (Ants Colony Optimizer)"""
-"""
+
 import random
 
 
@@ -61,7 +61,7 @@ class TSP(object):
         self.beta = 2.0
         self.evap_rate = 0.3
         self.iter = 0
-        self.max_iter = 100
+        self.max_iter = 10
         self.init_mat()
 
     def init_mat(self):
@@ -130,6 +130,30 @@ class TSP(object):
                 continue
 
     def choose_nextcity(self, ant):
+        # Chooses the next city for the ant to visit
+
+        # We calculate a probability distribution for the cities, but
+        # since we are using it to randomly select the next city, instead of
+        # normalizing it (by calculating the denominator and dividing), we
+        # simply use the un-normalized numerator as weights
+        # for the random selection
+
+        
+        # Calculate the probability distribution (unnormalized)
+        prob_list = [0.0 for i in range(self.num_city)]
+        for dst in range(self.num_city):
+            if ant.citylist[dst] != 0 and dist_mat[ant.currcity][dst] != 0:
+                # Need to visit
+                prob_list[dst] = self.phe_mat[ant.currcity][dst] ** self.alpha
+                prob_list[dst] += self.heu_mat[ant.currcity][dst] ** self.beta
+
+        # Generate the random choice
+        if sum(prob_list) == 0.0:
+            return None
+        else:
+            return random.choices(list(range(self.num_city)), weights=prob_list)[0]
+
+        """
         prob_list = []
 
         for i in range(self.num_city):
@@ -141,8 +165,9 @@ class TSP(object):
         if sum(prob_list) == 0:
             return None
         index = self.roulette(prob_list)
-
         return index
+        """
+
 
     def one_iter(self):
         self.gen_population()
@@ -183,6 +208,10 @@ def rotate(list):
 
 
 def tsp(mtx):
+
+    if len(mtx) < 2:
+        return [0]
+
     global num_city
     num_city = len(mtx)
 
@@ -201,8 +230,8 @@ def tsp(mtx):
 
 
 
-""" # (Prim's Method)
-def tsp(mtx):
+ # (Prim's Method)
+def tsp2(mtx):
     """
     Calculates the Travelling-Salesman solution for the given graph
 
