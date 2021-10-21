@@ -1,7 +1,7 @@
 # find an optimal path between multiple points
 
 """ (Ants Colony Optimizer)"""
-
+"""
 import random
 
 
@@ -201,9 +201,9 @@ def tsp(mtx):
 
 
 
-""" (Prim's Method)
+""" # (Prim's Method)
 def tsp(mtx):
-    
+    """
     Calculates the Travelling-Salesman solution for the given graph
 
     Nodes are identified from 0 to n - 1, where n = len(mtx)
@@ -216,7 +216,7 @@ def tsp(mtx):
      - mtx: The square adjacency matrix
     Returns:
      - A length n list of the calculated permutation, where 0 is always the first entry
-    
+    """
 
 
     n = len(mtx)
@@ -240,7 +240,5 @@ def tsp(mtx):
         selected[node] = 1
         numedges += 1
     return MST
-
-"""
 
 
