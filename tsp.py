@@ -50,7 +50,7 @@ class TSP(object):
 
     def __init__(self):
         self.num_city = num_city
-        self.num_ants = int(num_city * 3)
+        self.num_ants = int(num_city * 2)
         self.ants = []
         self.dist_mat = dist_mat
         # self.prob_mat=[]
@@ -61,7 +61,7 @@ class TSP(object):
         self.beta = 2.0
         self.evap_rate = 0.3
         self.iter = 0
-        self.max_iter = 10
+        self.max_iter = 30
         self.init_mat()
 
     def init_mat(self):
@@ -88,17 +88,14 @@ class TSP(object):
         else:
             return 0.0
 
-
-
     def update_phemat(self):
-
-
+        check=[]
         for ant in self.ants:
             for m in range(len(ant.path) - 1):
-                src=ant.path[m]
-                dst=ant.path[m+1]
-        self.phe_mat[src][dst] = (1 - self.evap_rate) * self.phe_mat[src][dst] + ant.get_phevalue()
+                src = ant.path[m]
+                dst = ant.path[m + 1]
 
+                self.phe_mat[src][dst] = (1 - self.evap_rate) * self.phe_mat[src][dst] + ant.get_phevalue()
 
 
     def choose_nextcity(self, ant):
@@ -116,7 +113,7 @@ class TSP(object):
         for dst in range(self.num_city):
             if ant.citylist[dst] != 0 and dist_mat[ant.currcity][dst] != 0:
                 # Need to visit
-                prob_list[dst] = self.phe_mat[ant.currcity][dst] ** self.alpha
+                prob_list[dst] =  self.phe_mat[ant.currcity][dst] ** self.alpha
                 prob_list[dst] += self.calculate_hvalue(ant.currcity,dst) ** self.beta
 
         # Generate the random choice
@@ -227,5 +224,4 @@ def tsp2(mtx):
         selected[node] = 1
         numedges += 1
     return MST
-
 
