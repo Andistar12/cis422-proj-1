@@ -95,7 +95,7 @@ class TSP(object):
         nominator = (self.phe_mat[src][dst] ** self.alpha) * (self.heu_mat[src][dst] ** self.beta)
         denominator = 0.0
         for i in range(self.num_city):
-            # print(f'antid:{ant.id} -> {ant.citylist}')
+
 
             if (ant.citylist[i] != 0):
                 denominator += (self.phe_mat[ant.currcity][i] ** self.alpha) * (
