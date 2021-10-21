@@ -3,7 +3,7 @@
 """ (Ants Colony Optimizer)"""
 
 import random
-
+from random import randrange
 
 class Ant(object):
 
@@ -74,14 +74,6 @@ class TSP(object):
                 else:
                     self.phe_mat[i].append(float(0.0))
 
-        for i in range(self.num_city):
-            self.heu_mat.append([])
-            for j in range(self.num_city):
-                if (i != j) and (dist_mat[i][j] != 0):
-                    self.heu_mat[i].append(1.0 / self.dist_mat[i][j])
-                else:
-                    self.heu_mat[i].append(0.0)
-
 
     def gen_population(self):
         for i in range(self.num_ants):
@@ -89,45 +81,25 @@ class TSP(object):
             self.ants.append(ant)
             ant.random_spawn()
 
+    def calculate_hvalue(self,src,dst):
+        if (src != dst ) and (self.dist_mat[src][dst] != 0):
+            dist=self.dist_mat[src][dst]
+            return 1.0/dist
+        else:
+            return 0.0
 
-    def calculate_prob(self, ant, src, dst):
 
-        nominator = (self.phe_mat[src][dst] ** self.alpha) * (self.heu_mat[src][dst] ** self.beta)
-        denominator = 0.0
-        for i in range(self.num_city):
-
-
-            if (ant.citylist[i] != 0):
-                denominator += (self.phe_mat[ant.currcity][i] ** self.alpha) * (
-                            self.heu_mat[ant.currcity][i] ** self.beta)
-
-        # print(nominator/denominator)
-        return nominator / denominator
 
     def update_phemat(self):
 
-        for i in range(self.num_city):
-            for j in range(self.num_city):
-                if i != j:
-                    phe_value = 0.0
-                    for ant in self.ants:
-                        path = ant.path
-                        for m in range(len(path) - 1):
-                            if (path[m] == i) and (path[m + 1] == j):
-                                phe_value += ant.get_phevalue()
-                    self.phe_mat[i][j] = (1 - self.evap_rate) * self.phe_mat[i][j] + phe_value
 
-    def roulette(self, list):
-        # print(list)
-        prob = 0.0
-        total_prob = sum(list)
-        rand = random.random()
-        for i in range(len(list)):
-            prob += list[i] / total_prob
-            if prob >= rand:
-                return i
-            else:
-                continue
+        for ant in self.ants:
+            for m in range(len(ant.path) - 1):
+                src=ant.path[m]
+                dst=ant.path[m+1]
+        self.phe_mat[src][dst] = (1 - self.evap_rate) * self.phe_mat[src][dst] + ant.get_phevalue()
+
+
 
     def choose_nextcity(self, ant):
         # Chooses the next city for the ant to visit
@@ -145,7 +117,7 @@ class TSP(object):
             if ant.citylist[dst] != 0 and dist_mat[ant.currcity][dst] != 0:
                 # Need to visit
                 prob_list[dst] = self.phe_mat[ant.currcity][dst] ** self.alpha
-                prob_list[dst] += self.heu_mat[ant.currcity][dst] ** self.beta
+                prob_list[dst] += self.calculate_hvalue(ant.currcity,dst) ** self.beta
 
         # Generate the random choice
         if sum(prob_list) == 0.0:
@@ -153,20 +125,6 @@ class TSP(object):
         else:
             return random.choices(list(range(self.num_city)), weights=prob_list)[0]
 
-        """
-        prob_list = []
-
-        for i in range(self.num_city):
-            if ant.citylist[i] != 0 and dist_mat[ant.currcity][i] != 0:
-                prob_list.append(self.calculate_prob(ant, ant.currcity, i))
-            else:
-                prob_list.append(0.0)
-        # print(prob_list)
-        if sum(prob_list) == 0:
-            return None
-        index = self.roulette(prob_list)
-        return index
-        """
 
 
     def one_iter(self):
