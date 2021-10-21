@@ -109,7 +109,7 @@ function clearMarkers() {
     markers = [];
     //reset the marker count, so new markers start at 0
     markerCount = 0;
-    $("#path-list").text("None");
+    $("#path-list").text("Please press \"Compute Path\" when ready.");
 }
 
 //starts the process of computing the optimal path through the markers
