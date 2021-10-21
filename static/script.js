@@ -162,7 +162,7 @@ function distanceCallback(response, status) {
         for (var j = 0; j < length; j++) {
             //append the distance from marker i to marker j
             //to the end of the current row
-            var value = rows[i].elements[j].distance.value;
+            var value = rows[i].elements[j].duration.value;
             matrix[i].push(value);
         }
     }
