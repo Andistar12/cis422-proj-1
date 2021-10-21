@@ -5,6 +5,8 @@ To run the tests on this file do the following:
         $ python3 tsp_tests.py
     Verbose test to see each test function's success or failure:
         $ python3 -m unittest -v tsp_tests.py
+    Test with performance profiling:
+        $ python3 -m cProfile -s cumtime tsp_tests.py
 """
 
 import unittest
@@ -49,7 +51,7 @@ class TestTSP(unittest.TestCase):
         Tests that an nxn matrix produces a valid path
         """
         # generate an arbitrary n x n matrix
-        n = 100
+        n = 25
         tsp_solution = tsp(gen_rand_mtx(n))
 
         # check that the solution array starts with 0, the starting node.
@@ -92,4 +94,4 @@ def check_all_nodes_in(array, n):
     return not nodes
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(module="tsp_tests")
