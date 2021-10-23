@@ -58,9 +58,33 @@
 					<li{% if "tsp" == active_page %} class="nav-item active"{% else %} class="nav-item" {% endif%}>
 						<a class="nav-link" href="/">Find your route</a>
 					</li>
+                    <li class="nav-item">
+                        <a class="nav-link btn" data-toggle="modal" data-target="#aboutUsModal">About Us</a>
+                    </li>
                 </ul>
             </div>
         </nav>
+
+        <!-- About Us Modal -->
+        <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog" aria-labelledby="aboutUsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">About Us</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>We are nope logistics</h5>
+                            <p>[nope]<p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script type=text/javascript>
             $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
