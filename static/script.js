@@ -20,7 +20,8 @@ function initMap() {
         //initialize the starting position of the map
         center: {lat:  44.0458, lng: -123.0711}, //latitude/longitude of Deschutes Hall
         zoom: 17,
-        streetViewControl: false
+        streetViewControl: false,
+        mapId: '339e9334a976ae8a'
     });
 
     //watch for click events on the map and add a marker at the click point
