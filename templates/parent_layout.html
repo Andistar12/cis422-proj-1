@@ -44,7 +44,6 @@
         </script>
     </head>
     <body>
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="#"><image src="static/logo-white-small.png" width="30" height="30"> Route Finder</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,11 +54,11 @@
           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-					<li{% if "tsp" == active_page %} class="nav-item active"{% else %} class="nav-item" {% endif%}>
+					<li class="nav-item active">
 						<a class="nav-link" href="/">Find your route</a>
 					</li>
-                    <li class="nav-item">
-                        <a class="nav-link btn" data-toggle="modal" data-target="#aboutUsModal">About Us</a>
+                    <li class="nav-item active">
+                        <a class="nav-link btn text-left" data-toggle="modal" data-target="#aboutUsModal">About Us</a>
                     </li>
                 </ul>
             </div>
