@@ -148,6 +148,61 @@ function computePath() {
         destinations: destinations,
         travelMode: "DRIVING"
     }, distanceCallback)
+
+    // Instantiate a directions service.
+    const directionsService = new google.maps.DirectionsService();
+
+    // Create a renderer for directions and bind it to the map.
+    //const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+    // Instantiate an info window to hold step text.
+    const stepDisplay = new google.maps.InfoWindow();
+
+    calculateAndDisplayRoute(
+        directionsService,
+        markers,
+        stepDisplay,
+        map
+    );
+}
+
+function calculateAndDisplayRoute(
+    directionsService,
+    markerArray,
+    stepDisplay,
+    map
+) {
+    // First, remove any existing markers from the map.
+    for (let i = 0; i < markerArray.length; i++) {
+        markerArray[i].setMap(null);
+    }
+
+    var waypointsArray = [];
+    for (let i = 1; i < markerArray.length; i++) {
+        waypointsArray.push({
+            location: markerArray[i].position,
+            stopover: true,
+        });
+    }
+    // Retrieve the start and end locations and create a DirectionsRequest using
+    // DRIVING directions.
+    var directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+    directionsService
+        .route({
+            origin: markerArray[0].position,
+            destination: markerArray[0].position,
+            waypoints: waypointsArray,
+            travelMode: google.maps.TravelMode.DRIVING,
+        })
+        .then((result) => {
+            // Route the directions and pass the response to a function to create
+            // markers for each step.
+            document.getElementById("warnings-panel").innerHTML =
+                "<b>" + result.routes[0].warnings + "</b>";
+            directionsRenderer.setDirections(result);
+        })
+        .catch((e) => {
+            window.alert("Directions request failed due to " + e);
+        });
 }
 
 //called when the API responds to a distance matrix request
