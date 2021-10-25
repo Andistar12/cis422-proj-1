@@ -11,6 +11,9 @@ var markerCount = 0;
 //initialize the search when the document is ready
 $(initSearch);
 
+//set the cookie before exiting the page
+window.addEventListener("beforeunload", setCookie);
+
 //Google Maps API object
 var map;
 function initMap() {
@@ -99,7 +102,27 @@ function initMap() {
         });
         //add the marker to the list of markers
         markers.push(marker);
+        setCookie(); //set the cookie after each marker is placed
     });
+
+    //if a cookie is found, set up the page accordingly
+    if (document.cookie) {
+        var cookie = JSON.parse(document.cookie);
+        var position = cookie.position;
+        var pos = new google.maps.LatLng(position.lat, position.lng);
+        //move the map to the old location
+        map.panTo(pos);
+        map.setZoom(position.zoom);
+        //simulate click events on the map at each marker's position
+        for (var i = 0; i < cookie.markers.length; i++) {
+            var marker = cookie.markers[i];
+            var lat = marker.lat;
+            var lng = marker.lng;
+            //simulate the event passed to the handler
+            var arg = {latLng: new google.maps.LatLng(lat, lng)};
+            google.maps.event.trigger(map, "click", arg);
+        }
+    }
 }
 
 //removes all markers from the map and resets marker count
@@ -117,6 +140,7 @@ function clearMarkers() {
     //reset the marker count, so new markers start at 0
     markerCount = 0;
     $("#path-list").text("Please press \"Compute Path\" when ready.");
+    setCookie(); //reset the cookie when markers are cleared
 }
 
 //starts the process of computing the optimal path through the markers
@@ -268,6 +292,10 @@ function searchLocation() {
     var search = $("#txf-search-location").prop("value");
     if (!search) return;
     var data = {address: search, key: apiKey}; //data sent to the service
+    var bounds = map.getBounds();
+    var swBound = bounds.tc;
+    var neBound = bounds.Hb;
+    bounds = `${swBound.g},${swBound.i}|${neBound.g},${neBound.i}`;
     //Google's Geocoding API
     var url = "https://maps.googleapis.com/maps/api/geocode/json";
     //send a GET request to the server with the data
@@ -276,7 +304,6 @@ function searchLocation() {
             console.error(data.status);
             return;
         }
-        console.log(data);
         //extract location data for the first search result
         var location = data.results[0].geometry.location;
         //move the map to the requested location
@@ -285,4 +312,27 @@ function searchLocation() {
     }).fail(function(jqXHR, status, error) {
         console.log(jqXHR, status, error);
     });
+}
+
+//store the current location and markers in a cookie
+function setCookie() {
+    var cookie = {}; //initialize the cookie object
+    cookie.position = {};
+    //add the current map position to the cookie
+    cookie.position.lat = map.center.lat();
+    cookie.position.lng = map.center.lng();
+    cookie.position.zoom = map.zoom;
+    cookie.markers = [];
+    //add each marker on the map to the cookie
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        var obj = {
+            id: marker.id,
+            lat: marker.position.lat().toFixed(6),
+            lng: marker.position.lng().toFixed(6)
+        }
+        cookie.markers.push(obj);
+    }
+    //set the cookie attribute of the page
+    document.cookie = JSON.stringify(cookie);
 }
