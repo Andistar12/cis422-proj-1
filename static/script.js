@@ -7,6 +7,8 @@ var apiKey;
 var markers = [];
 //holds the total number of markers that have been added to the map
 var markerCount = 0;
+//holds the directionsRenderer from the google maps api to draw the route
+var directionsRenderer;
 
 //initialize the search when the document is ready
 $(initSearch);
@@ -135,6 +137,8 @@ function clearMarkers() {
         //remove the marker's associated entry in the marker table
         $("#marker-" + marker.id).remove();
     }
+    if (directionsRenderer != null)
+        directionsRenderer.setMap(null);
     //reset the list of markers
     markers = [];
     //reset the marker count, so new markers start at 0
@@ -177,23 +181,19 @@ function computePath() {
     const directionsService = new google.maps.DirectionsService();
 
     // Create a renderer for directions and bind it to the map.
-    //const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-    // Instantiate an info window to hold step text.
-    const stepDisplay = new google.maps.InfoWindow();
+    directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
 
     calculateAndDisplayRoute(
+        directionsRenderer,
         directionsService,
-        markers,
-        stepDisplay,
-        map
+        markers
     );
 }
 
 function calculateAndDisplayRoute(
+    directionsRenderer,
     directionsService,
-    markerArray,
-    stepDisplay,
-    map
+    markerArray
 ) {
     // First, remove any existing markers from the map.
     for (let i = 0; i < markerArray.length; i++) {
@@ -209,7 +209,6 @@ function calculateAndDisplayRoute(
     }
     // Retrieve the start and end locations and create a DirectionsRequest using
     // DRIVING directions.
-    var directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
     directionsService
         .route({
             origin: markerArray[0].position,
