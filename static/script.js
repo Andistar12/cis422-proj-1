@@ -74,6 +74,12 @@ function initMap() {
                 .addClass("list-group-item")
                 .append($("<span>")
                     .html(getLabel)
+                    .attr("class", "marker-lbl")
+                    .click(function() {
+                        //when a label is clicked, move the map to the marker
+                        map.panTo(marker.position);
+                        map.setZoom(18);
+                    })
                 )
                 .append($("<span>")
                     .html("&#x2715;")

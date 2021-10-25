@@ -24,6 +24,10 @@ html, body {
     display: none;
 }
 
+.marker-lbl {
+    cursor: pointer;
+}
+
 .x-btn {
     display: inline-block;
     opacity: .5;
