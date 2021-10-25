@@ -59,8 +59,8 @@ function initMap() {
         //used initially and when marker is dragged
         function getLabel() {
             var s = "Marker #" + markerID + ": ";
-            s += marker.position.lat() + ", ";
-            s += marker.position.lng();
+            s += marker.position.lat().toFixed(6) + ", ";
+            s += marker.position.lng().toFixed(6);
             return s;
         }
         
