@@ -191,7 +191,7 @@ function calculateAndDisplayRoute(
     var waypointsArray = [];
 
     for (let i = 1; i < markerArray.length-1; i++) {
-        console.log(markerArray[i].position);
+        //console.log(markerArray[i].position);
         waypointsArray.push({
             location: markerArray[i].position,
             stopover: true,
@@ -256,7 +256,10 @@ function distanceCallback(response, status) {
             for (var i = 0; i < answer.length; i++) {
                 ids.push(markers[answer[i]].id);
             }
+
+            var totalTime = optimalTime(matrix, answer);
             var s = ids.join(", ");
+            s += ` (${totalTime})`;
             //display the optimal path to the user
             $("#path-list").text(s);
 
@@ -281,6 +284,22 @@ function distanceCallback(response, status) {
             alert("Server returned status: " + jqXHR.status);
         }
     })
+}
+
+function optimalTime(matrix, result) {
+    var time = 0;
+    for (var i = 1; i < result.length; i++) {
+        var start = result[i-1];
+        var end = result[i];
+        time += matrix[start][end];
+    }
+    var hours = Math.floor(time/3600);
+    var minutes = time % 60;
+    var res = `${minutes} minute${minutes == 1 ? "" : "s"}`;
+    if (hours) {
+        res = `${hours} hour${hours == 1 ? "" : "s"}, ` + res;
+    }
+    return res;
 }
 
 //add a listener to the search bar to search on enter
