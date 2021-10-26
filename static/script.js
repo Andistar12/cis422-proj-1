@@ -201,7 +201,9 @@ function calculateAndDisplayRoute(
     }
 
     var waypointsArray = [];
-    for (let i = 1; i < markerArray.length; i++) {
+
+    for (let i = 1; i < markerArray.length-1; i++) {
+        console.log(markerArray[i].position);
         waypointsArray.push({
             location: markerArray[i].position,
             stopover: true,
@@ -212,7 +214,7 @@ function calculateAndDisplayRoute(
     directionsService
         .route({
             origin: markerArray[0].position,
-            destination: markerArray[0].position,
+            destination: markerArray[markerCount-1].position,
             waypoints: waypointsArray,
             travelMode: google.maps.TravelMode.DRIVING,
         })
@@ -264,7 +266,7 @@ function distanceCallback(response, status) {
             //transform list of indices to list of IDs
             var ids = [];
             for (var i = 0; i < answer.length; i++) {
-                ids.push(markers[answer[i]].id);
+                ids.push(String.fromCharCode(65 + markers[answer[i]].id));
             }
             var s = ids.join(", ");
             //display the optimal path to the user
