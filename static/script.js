@@ -32,13 +32,13 @@ function initMap() {
     //watch for click events on the map and add a marker at the click point
     map.addListener("click", function(event) {
         //increment the number of markers and save the index of this marker
-        var markerID = String.fromCharCode(65 + markerCount++);
+        var markerID = markerCount++;
         //initialize a new marker at the location of the click
         var marker = new google.maps.Marker({
             position: event.latLng,
             draggable: true,
             map,
-            title: "Marker #" + markerID //shown when marker is hovered on
+            title: "Marker" //shown when marker is hovered on
         });
 
         //function to remove this marker from the map
@@ -63,7 +63,7 @@ function initMap() {
         //returns the text of this marker's entry in the list
         //used initially and when marker is dragged
         function getLabel() {
-            var s = "Marker #" + markerID + ": ";
+            var s = "Marker: ";
             s += marker.position.lat().toFixed(6) + ", ";
             s += marker.position.lng().toFixed(6);
             return s;
@@ -176,18 +176,6 @@ function computePath() {
         destinations: destinations,
         travelMode: "DRIVING"
     }, distanceCallback)
-
-    // Instantiate a directions service.
-    const directionsService = new google.maps.DirectionsService();
-
-    // Create a renderer for directions and bind it to the map.
-    directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-
-    calculateAndDisplayRoute(
-        directionsRenderer,
-        directionsService,
-        markers
-    );
 }
 
 function calculateAndDisplayRoute(
@@ -271,6 +259,23 @@ function distanceCallback(response, status) {
             var s = ids.join(", ");
             //display the optimal path to the user
             $("#path-list").text(s);
+
+            var orderedMarkers = [];
+            for (var i = 0; i < answer.length; i++) {
+                orderedMarkers.push(markers[answer[i]]);
+            }
+
+            // Instantiate a directions service.
+            const directionsService = new google.maps.DirectionsService();
+
+            // Create a renderer for directions and bind it to the map.
+            directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+            calculateAndDisplayRoute(
+                directionsRenderer,
+                directionsService,
+                orderedMarkers
+            );
         },
         error: function(jqXHR) {
             alert("Server returned status: " + jqXHR.status);
