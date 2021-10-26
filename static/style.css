@@ -49,3 +49,8 @@ html, body {
     height: 10%;
     text-align: center;
 }
+
+#compute_a, #compute_a:hover, #compute_a:focus, #compute_a:active {
+    text-decoration: none;
+    color: inherit;
+}
