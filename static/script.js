@@ -32,7 +32,7 @@ function initMap() {
     //watch for click events on the map and add a marker at the click point
     map.addListener("click", function(event) {
         //increment the number of markers and save the index of this marker
-        var markerID = markerCount++;
+        var markerID = String.fromCharCode(65 + markerCount++);
         //initialize a new marker at the location of the click
         var marker = new google.maps.Marker({
             position: event.latLng,
@@ -266,7 +266,7 @@ function distanceCallback(response, status) {
             //transform list of indices to list of IDs
             var ids = [];
             for (var i = 0; i < answer.length; i++) {
-                ids.push(String.fromCharCode(65 + markers[answer[i]].id));
+                ids.push(markers[answer[i]].id);
             }
             var s = ids.join(", ");
             //display the optimal path to the user
