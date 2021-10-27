@@ -107,6 +107,15 @@ function initMap() {
         setCookie(); //set the cookie after each marker is placed
     });
 
+    $("#google-map").on("keydown", function(event) {
+        if (event.key === "c") {
+            var pos = new google.maps.LatLng(44.0458, -123.0711);
+            //move the map to the initial location
+            map.panTo(pos);
+            map.setZoom(17);
+        }
+    });
+
     //if a cookie is found, set up the page accordingly
     if (document.cookie) {
         var cookie = JSON.parse(document.cookie);
