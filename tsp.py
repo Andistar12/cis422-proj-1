@@ -50,7 +50,7 @@ class TSP(object):
 
     def __init__(self):
         self.num_city = num_city
-        self.num_ants = int(num_city * 2)
+        self.num_ants = int(num_city * 5)
         self.ants = []
         self.dist_mat = dist_mat
         # self.prob_mat=[]
@@ -58,11 +58,13 @@ class TSP(object):
         self.heu_mat = []
         # self.citytable=[]
         self.alpha = 1.0
-        self.beta = 2.0
-        self.evap_rate = 0.3
+        self.beta = 10.0
+        self.evap_rate = 0.1
         self.iter = 0
-        self.max_iter = 30
+        self.max_iter = 10
+        self.temp = []
         self.init_mat()
+        self.update_temp()
 
     def init_mat(self):
 
@@ -74,6 +76,13 @@ class TSP(object):
                 else:
                     self.phe_mat[i].append(float(0.0))
 
+    def update_temp(self):
+
+
+        for i in range(self.num_city):
+            self.temp.append([])
+            for j in range(self.num_city):
+                self.temp[i].append(0.0)
 
     def gen_population(self):
         for i in range(self.num_ants):
@@ -89,13 +98,15 @@ class TSP(object):
             return 0.0
 
     def update_phemat(self):
-        check=[]
-        for ant in self.ants:
-            for m in range(len(ant.path) - 1):
-                src = ant.path[m]
-                dst = ant.path[m + 1]
 
-                self.phe_mat[src][dst] = (1 - self.evap_rate) * self.phe_mat[src][dst] + ant.get_phevalue()
+        for ant in self.ants:
+            path=ant.path
+            for k in range(len(path)-2):
+                self.temp[k][k+1]+=ant.get_phevalue()
+
+        for i in range(self.num_city):
+            for j in range(self.num_city):
+                self.phe_mat[i][j]=self.phe_mat[i][j]*(1-self.evap_rate)+self.temp[i][j]
 
 
     def choose_nextcity(self, ant):
@@ -107,20 +118,20 @@ class TSP(object):
         # simply use the un-normalized numerator as weights
         # for the random selection
 
-        
         # Calculate the probability distribution (unnormalized)
         prob_list = [0.0 for i in range(self.num_city)]
         for dst in range(self.num_city):
             if ant.citylist[dst] != 0 and dist_mat[ant.currcity][dst] != 0:
                 # Need to visit
-                prob_list[dst] =  self.phe_mat[ant.currcity][dst] ** self.alpha
-                prob_list[dst] += self.calculate_hvalue(ant.currcity,dst) ** self.beta
+
+                prob_list[dst] = (self.phe_mat[ant.currcity][dst] ** self.alpha) * ( self.calculate_hvalue(ant.currcity, dst) ** self.beta)
 
         # Generate the random choice
         if sum(prob_list) == 0.0:
             return None
         else:
             return random.choices(list(range(self.num_city)), weights=prob_list)[0]
+
 
 
 
@@ -139,7 +150,7 @@ class TSP(object):
             if (ant != None):
                 ant.back_startcity()
         self.update_phemat()
-        # print(self.phe_mat)
+        self.update_temp()
         if (self.iter < self.max_iter - 1):
             self.ants.clear()
 
@@ -224,4 +235,5 @@ def tsp2(mtx):
         selected[node] = 1
         numedges += 1
     return MST
+
 
