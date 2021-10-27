@@ -272,7 +272,12 @@ function distanceCallback(response, status) {
             const directionsService = new google.maps.DirectionsService();
 
             // Create a renderer for directions and bind it to the map.
-            directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+            directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                polylineOptions: {
+                    strokeColor: "fuchsia"
+                }
+            });
 
             calculateAndDisplayRoute(
                 directionsRenderer,
