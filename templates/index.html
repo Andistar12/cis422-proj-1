@@ -21,8 +21,8 @@
                     <input type="file" id="file-input" style="display: none">
                 </div>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn" title="Help" data-toggle="modal" data-target="#helpModal">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zM6.92 6.085c.081-.16.19-.299.34-.398.145-.097.371-.187.74-.187.28 0 .553.087.738.225A.613.613 0 019 6.25c0 .177-.04.264-.077.318a.956.956 0 01-.277.245c-.076.051-.158.1-.258.161l-.007.004a7.728 7.728 0 00-.313.195 2.416 2.416 0 00-.692.661.75.75 0 001.248.832.956.956 0 01.276-.245 6.3 6.3 0 01.26-.16l.006-.004c.093-.057.204-.123.313-.195.222-.149.487-.355.692-.662.214-.32.329-.702.329-1.15 0-.76-.36-1.348-.863-1.725A2.76 2.76 0 008 4c-.631 0-1.155.16-1.572.438-.413.276-.68.638-.849.977a.75.75 0 101.342.67z"></path></svg>
+                <button type="button" class="btn mb-3" title="Help" data-toggle="modal" data-target="#helpModal">
+                    <i class="fa fa-question" aria-hidden="true"></i>
                 </button>
 
                 <!-- Modal -->
@@ -51,18 +51,22 @@
                 <div class="collapse show" id="markerCollapse"><div class="list-group" id="marker-list"></div></div>
             </div>
             <br>
-            <div class="row">
+            <div class="row-center mb-3">
+                <label for="stop-time">Add time at each stop: 0 minutes</label>
+                <input type="range" class="custom-range" value="0" min="0" max="120" step="1" id="stop-time">
                 <div class="text-center col-12">Your route: <span id="path-list">Please press "Compute Path" when ready.</span></div>
+                <div class="text-center col-12">Drive Time: <span id="drive-time"></span></div>
+                <div class="text-center col-12">Total Time: <span id="total-time"></span></div>
             </div>
             <br>
         </div>
 
         <div class="col h-100">
             <div class="input-group mb-3">
-                <input type="text" id="txf-search-location" class="form-control" placeholder="Search location" aria-label="Search location" aria-describedby="btn-search-location">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-search-location" onclick="searchLocation()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M14.53 15.59a8.25 8.25 0 111.06-1.06l5.69 5.69a.75.75 0 11-1.06 1.06l-5.69-5.69zM2.5 9.25a6.75 6.75 0 1111.74 4.547.746.746 0 00-.443.442A6.75 6.75 0 012.5 9.25z"></path></svg>
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="Enter Location" id="txf-search-location" aria-label="Search location" aria-describedby="btn-search-location">
+                    <button type="submit" class="searchButton" id="btn-search-location" onclick="searchLocation()">
+                        <i class="fa fa-search"></i>
                     </button>
                 </div>
             </div>

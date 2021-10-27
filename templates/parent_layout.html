@@ -9,6 +9,9 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+        <!-- Font Awesome FA-icons CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>        
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -31,7 +34,7 @@
         <meta name="msapplication-navbutton-color" content="#2974ce">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="msapplication-starturl" content="/">
-        <link rel="icon" type="image/png" sizes="200x200" href="/static/app-logo-small.png">
+        <link rel="icon" type="image/png" sizes="200x200" href="/static/logo-small.png">
         <link rel="apple-touch-icon" type="image/png" sizes="200x200" href="/static/app-logo-small.png">
 
         <!-- Setup the service worker-->
@@ -55,10 +58,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/">Find your route</a>
+						<button class="nav-link btn" onclick="window.location.href='/'">Find your route</button>
 					</li>
                     <li class="nav-item active">
-                        <a class="nav-link btn text-left" data-toggle="modal" data-target="#aboutUsModal">About Us</a>
+                        <button class="nav-link btn" data-toggle="modal" data-target="#aboutUsModal">About Us</button>
                     </li>
                 </ul>
             </div>
