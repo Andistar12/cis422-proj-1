@@ -302,6 +302,34 @@ function optimalTime(matrix, result) {
     return res;
 }
 
+//read markers from a file
+function importMarkers() {
+    //simulate a click on the file input button
+    var importButton = document.getElementById("file-input");
+    importButton.click();
+    //add listener for file selection
+    importButton.addEventListener("change", function() {
+        var reader = new FileReader();
+        //add listener for when file is read from client
+        reader.onload = function(event) {
+            var text = event.target.result;
+            var lines = text.split("\n");
+            //for each line, read the lat/lng and add a marker there
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                if (line === "") continue;
+                var nums = line.split(",");
+                nums[0] = parseFloat(nums[0]);
+                nums[1] = parseFloat(nums[1]);
+                //simulate a click event at the given lat/lng
+                var arg = {latLng: new google.maps.LatLng(nums[0], nums[1])};
+                google.maps.event.trigger(map, "click", arg);
+            }
+        }
+        reader.readAsText(importButton.files[0]);
+    })
+}
+
 //add a listener to the search bar to search on enter
 function initSearch() {
     $("#txf-search-location").keydown(function(event) {
