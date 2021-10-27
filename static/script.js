@@ -286,15 +286,20 @@ function distanceCallback(response, status) {
     })
 }
 
+//calculate the amount of time to take the given route
 function optimalTime(matrix, result) {
-    var time = 0;
+    var time = 0; //holds the result in seconds
+    //iterate over the result array and accumulate durations
     for (var i = 1; i < result.length; i++) {
         var start = result[i-1];
         var end = result[i];
         time += matrix[start][end];
     }
-    var hours = Math.floor(time/3600);
+    //extract hours and minutes from the time in seconds
+    time = Math.floor(time/60);
+    var hours = Math.floor(time/60);
     var minutes = time % 60;
+    //construct a text representation of the time
     var res = `${minutes} minute${minutes == 1 ? "" : "s"}`;
     if (hours) {
         res = `${hours} hour${hours == 1 ? "" : "s"}, ` + res;
