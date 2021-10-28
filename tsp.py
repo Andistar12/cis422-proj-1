@@ -50,7 +50,7 @@ class TSP(object):
 
     def __init__(self):
         self.num_city = num_city
-        self.num_ants = int(num_city * 5)
+        self.num_ants = int(num_city * 3.5)
         self.ants = []
         self.dist_mat = dist_mat
         # self.prob_mat=[]
@@ -58,10 +58,10 @@ class TSP(object):
         self.heu_mat = []
         # self.citytable=[]
         self.alpha = 1.0
-        self.beta = 10.0
-        self.evap_rate = 0.1
+        self.beta = 50.0
+        self.evap_rate = 0.15
         self.iter = 0
-        self.max_iter = 10
+        self.max_iter = 35
         self.temp = []
         self.init_mat()
         self.update_temp()
@@ -93,7 +93,7 @@ class TSP(object):
     def calculate_hvalue(self,src,dst):
         if (src != dst ) and (self.dist_mat[src][dst] != 0):
             dist=self.dist_mat[src][dst]
-            return 1.0/dist
+            return 1/dist
         else:
             return 0.0
 
@@ -107,6 +107,7 @@ class TSP(object):
         for i in range(self.num_city):
             for j in range(self.num_city):
                 self.phe_mat[i][j]=self.phe_mat[i][j]*(1-self.evap_rate)+self.temp[i][j]
+
 
 
     def choose_nextcity(self, ant):
@@ -124,7 +125,7 @@ class TSP(object):
             if ant.citylist[dst] != 0 and dist_mat[ant.currcity][dst] != 0:
                 # Need to visit
 
-                prob_list[dst] = (self.phe_mat[ant.currcity][dst] ** self.alpha) * ( self.calculate_hvalue(ant.currcity, dst) ** self.beta)
+                prob_list[dst] = ((self.phe_mat[ant.currcity][dst]) ** self.alpha) * ( (self.calculate_hvalue(ant.currcity, dst)) ** self.beta)
 
         # Generate the random choice
         if sum(prob_list) == 0.0:
@@ -158,7 +159,22 @@ class TSP(object):
         while (self.iter < self.max_iter):
             self.one_iter()
             self.iter += 1
-        return self.ants[0].path
+        return self.choose_best(self.ants)
+
+
+    def choose_best(self,ants):
+        min=float("inf")
+        cost=0
+        min_path=None
+        for ant in ants:
+            path=ant.path
+            for i in range(len(path)-1):
+                cost+=self.dist_mat[path[i]][path[i+1]]
+            if cost<min:
+                min=cost
+                min_path=path
+            cost=0
+        return min_path
 
 
 def rotate(list):
@@ -191,6 +207,8 @@ def tsp(mtx):
     tsp_solver = TSP()
     path = tsp_solver.run()
     ret = rotate(path)
+    # for i in range(len(ret) - 2):
+    #     print(f'{mtx[ret[i]][ret[i+1]]}')
     return ret
 
 

@@ -375,10 +375,10 @@ function searchLocation() {
     var search = $("#txf-search-location").prop("value");
     if (!search) return;
     var data = {address: search, key: apiKey}; //data sent to the service
-    var bounds = map.getBounds();
-    var swBound = bounds.tc;
-    var neBound = bounds.Hb;
-    bounds = `${swBound.g},${swBound.i}|${neBound.g},${neBound.i}`;
+    //var bounds = map.getBounds();
+    //var swBound = bounds.tc;
+    //var neBound = bounds.Hb;
+    //bounds = `${swBound.g},${swBound.i}|${neBound.g},${neBound.i}`;
     //Google's Geocoding API
     var url = "https://maps.googleapis.com/maps/api/geocode/json";
     //send a GET request to the server with the data

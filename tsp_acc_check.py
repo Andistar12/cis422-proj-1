@@ -6,6 +6,7 @@
 import tsplib95
 import os
 import tsp
+import time
 
 # The optimal times from http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/ATSP.html
 optimal = {
@@ -29,7 +30,7 @@ optimal = {
     "ftv150.atsp": 2611,
     "ftv160.atsp": 2683,
     "ftv170.atsp": 2755,
-    "kro124.atsp": 36230,
+    "kro124p.atsp": 36230,
     "p43.atsp": 5620,
     "rbg323.atsp": 1326,
     "rbg358.atsp": 1163,
@@ -53,10 +54,12 @@ for f in os.listdir("./tsp"):
         continue
 
     # Construct distance matrix
-    mtx = [[problem.get_weight(x, y) for x in range(n)] for y in range(n)]
+    mtx = [[problem.get_weight(y, x) for x in range(n)] for y in range(n)]
     
     # Compute result using our TSP
+    stime = time.perf_counter()
     result = tsp.tsp(mtx)
+    etime = time.perf_counter()
 
     # Calculate cost of path
     c = 0
@@ -76,7 +79,7 @@ for f in os.listdir("./tsp"):
     count += 1
 
     # Print result for this matrix
-    print(f"{f}: dimension={n} cost={c} optimal={opt} percent={opt/c:0.5f}")
+    print(f"{f}: dimension={n} cost={c} optimal={opt} percent={opt/c:0.5f} time={etime-stime:0.4f}s")
 
 # Print final optimal percentage
 print(f"Percentage of optimal: {tot/count:0.5f}")
