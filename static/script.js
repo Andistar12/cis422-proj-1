@@ -153,6 +153,8 @@ function clearMarkers() {
     //reset the marker count, so new markers start at 0
     markerCount = 0;
     $("#path-list").text("Please press \"Compute Path\" when ready.");
+    $("#drive-time").text("");
+    $("#total-time").text("");
     setCookie(); //reset the cookie when markers are cleared
 }
 
