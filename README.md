@@ -10,7 +10,7 @@ To run Route Finder on a local machine, make sure [Python](https://www.python.or
 
 To startup the server, run the following command:
 
-`python backend.py config.js`
+`python backend.py config.json`
 
 ![Image](images/flask-output.png)
 
@@ -19,3 +19,11 @@ If the output resembles the above, the local server deployed successfully. The p
 To access the app on a local machine, visit "http://localhost:XXXX", substituting the port number found in the previous step.
 
 To terminate the local server, press ^C (Control-C) in the command window.
+
+## Configuration file
+
+The `config-blank.json` may be renamed into `config.json` and filled out. The config requires the following parameters:
+
+ - `port`: The port to host the web server on
+ - `secret_key`: Used by Flask for session security. This can be set to any nonempty String
+ - `gapi_key`: A Google Maps API key 
