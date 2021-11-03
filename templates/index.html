@@ -27,17 +27,38 @@
 
                 <!-- Modal -->
                 <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-dialog model-dialog-center" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Help</h5>
+                                <h5 class="modal-title" id="helpModalLabel">Help</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <h5>How to use the Route Finder</h5>
-                                    <p>...<p>
+                                <h4>How to use the Route Finder</h4>
+                                    <h5>Navigating the map</h5>
+                                        <p>To find where you want to place your markers either drag with your mouse or finger by clicking or pressing on the map to move around,
+                                            or by using the search bar to change the current map location to find certain specific places.</p>
+                                    <h5>Placing Markers</h5>
+                                        <p>To add your markers, simply tap on the map at the destination you would like to add into your route.
+                                            Please select at minimum two markers and at maximum ten markers.</p>
+                                        <p>Note that your first placed marker is your assumed starting point which will not be calculated for stop time.</p>
+                                        <p>Markers may also be added via the "Import Markers" button which will prompt you for a file. Please use
+                                            a csv file with the coordinates of your desired destinations.</p>
+                                        <p>Markers may be cleared at any point via the "Clear Markers" button or by double-clicking the marker on the map.</p>
+                                    <h5>Calculating Your Route</h5>
+                                        <p>To calculate your route, simply press "Compute Path" after you have placed your markers on the map.</p>
+                                        <p>To clear the route and edit your markers, simply refresh the page. If you want to clear the markers
+                                            and the route then just press the "Clear Markers" button.</p>
+                                         <p>Use the optional stop time slider to add a certain number of minutes to each of your stops (not including your start point as a stop).</p>
+                                    <h5>Understanding Your Results</h5>
+                                        <p>Your optimal path will be displayed on the map starting with marker A as your starting point.
+                                            From there your route follows in alphabetical order to the end being the highest indexed letter in the alphabet in your route.</p>
+                                        <p>Your estimated drive time will be displayed as the total travel time by car, not including your specified stop time for each destination.</p>
+                                        <p>Your total estimated time displays your total drive time plus your stop time for each destination (not including your starting point).
+                                            The total time calculation provides you with an estimate for how long it should take you to visit all the destinations you specified before
+                                            returning to your start point.</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -52,11 +73,11 @@
             </div>
             <br>
             <div class="row-center mb-3">
-                <label for="stop-time">Add time at each stop: 0 minutes</label>
-                <input type="range" class="custom-range" value="0" min="0" max="120" step="1" id="stop-time">
+                <label for="stop-time-range">Add time at each stop: <span id="stop-time">0 minutes</span></label>
+                <input type="range" class="custom-range" value="0" min="0" max="120" step="1" id="stop-time-range" oninput="document.getElementById('stop-time').innerHTML = `${this.value} minute${this.value === 1 ? '' : 's'}`">
                 <div class="text-center col-12">Your route: <span id="path-list">Please press "Compute Path" when ready.</span></div>
-                <div class="text-center col-12">Drive Time: <span id="drive-time"></span></div>
-                <div class="text-center col-12">Total Time: <span id="total-time"></span></div>
+                <div class="text-center col-12">Estimated Drive Time: <span id="drive-time"></span></div>
+                <div class="text-center col-12">Total Estimated Time: <span id="total-time"></span></div>
             </div>
             <br>
         </div>

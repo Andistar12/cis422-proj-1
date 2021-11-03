@@ -153,6 +153,8 @@ function clearMarkers() {
     //reset the marker count, so new markers start at 0
     markerCount = 0;
     $("#path-list").text("Please press \"Compute Path\" when ready.");
+    $("#drive-time").text("");
+    $("#total-time").text("");
     setCookie(); //reset the cookie when markers are cleared
 }
 
@@ -266,11 +268,13 @@ function distanceCallback(response, status) {
                 ids.push(markers[answer[i]].id);
             }
 
-            var totalTime = optimalTime(matrix, answer);
+            var optimalTimeResult = optimalTime(matrix, answer);
             var s = ids.join(", ");
-            s += ` (${totalTime})`;
+            //s += ` (${totalTime})`;
             //display the optimal path to the user
             $("#path-list").text(s);
+            $("#drive-time").text(optimalTimeResult[0]);
+            $("#total-time").text(optimalTimeResult[1]);
 
             var orderedMarkers = [];
             for (var i = 0; i < answer.length; i++) {
@@ -314,11 +318,20 @@ function optimalTime(matrix, result) {
     var hours = Math.floor(time/60);
     var minutes = time % 60;
     //construct a text representation of the time
-    var res = `${minutes} minute${minutes == 1 ? "" : "s"}`;
+    var driveTime = `${minutes} minute${minutes === 1 ? "" : "s"}`;
     if (hours) {
-        res = `${hours} hour${hours == 1 ? "" : "s"}, ` + res;
+        driveTime = `${hours} hour${hours === 1 ? "" : "s"}, ` + driveTime;
     }
-    return res;
+    //calculate the total time with the stop time for each non-origin marker.
+    let stopTime = parseInt(document.getElementById("stop-time-range").value) * (markerCount-1);
+    var t_time = time + stopTime;
+    var t_hours = Math.floor(t_time/60);
+    var t_minutes = t_time % 60;
+    var totalTime = `${t_minutes} minute${t_minutes === 1 ? "" : "s"}`;
+    if (t_hours) {
+        totalTime = `${t_hours} hour${t_hours === 1 ? "" : "s"}, ` + totalTime;
+    }
+    return [driveTime, totalTime];
 }
 
 //read markers from a file
@@ -364,10 +377,10 @@ function searchLocation() {
     var search = $("#txf-search-location").prop("value");
     if (!search) return;
     var data = {address: search, key: apiKey}; //data sent to the service
-    var bounds = map.getBounds();
-    var swBound = bounds.tc;
-    var neBound = bounds.Hb;
-    bounds = `${swBound.g},${swBound.i}|${neBound.g},${neBound.i}`;
+    //var bounds = map.getBounds();
+    //var swBound = bounds.tc;
+    //var neBound = bounds.Hb;
+    //bounds = `${swBound.g},${swBound.i}|${neBound.g},${neBound.i}`;
     //Google's Geocoding API
     var url = "https://maps.googleapis.com/maps/api/geocode/json";
     //send a GET request to the server with the data
