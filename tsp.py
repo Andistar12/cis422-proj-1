@@ -8,26 +8,27 @@ from random import randrange
 class Ant(object):
 
     def __init__(self, id):
+        #initializing ants' parameters
         self.id = id
         self.citylist = [1 for i in range(num_city)]
         self.totaldist = 0.0
         self.currcity = None
         self.startcity = None
         self.total_pvalue = 100.0
-        # self.phevalue=None
         self.path = []
-        # self.count=0
 
 
 
     def random_spawn(self):
+        #spawning ants in random cities
         self.startcity = random.randint(0, num_city - 1)
         self.currcity = self.startcity
         self.citylist[self.currcity] = 0
         self.path.append(self.currcity)
-        # print(self.citylist)
+
 
     def get_phevalue(self):
+        #reutrn pheromone value
         if (self.totaldist == 0):
             return 0.0
         else:
@@ -36,27 +37,28 @@ class Ant(object):
 
 
     def move(self, next_city):
+        #defind ants' movement
         self.path.append(next_city)
         self.totaldist += dist_mat[self.currcity][next_city]
         self.citylist[next_city] = 0
         self.currcity = next_city
-        # self.count+=1
+
 
     def back_startcity(self):
+        #go back to starting city
         self.move(self.startcity)
 
 
 class TSP(object):
 
     def __init__(self):
+        #initializing ant's colony parameters
         self.num_city = num_city
         self.num_ants = int(num_city * 3.5)
         self.ants = []
         self.dist_mat = dist_mat
-        # self.prob_mat=[]
         self.phe_mat = []
         self.heu_mat = []
-        # self.citytable=[]
         self.alpha = 1.0
         self.beta = 50.0
         self.evap_rate = 0.15
@@ -67,7 +69,7 @@ class TSP(object):
         self.update_temp()
 
     def init_mat(self):
-
+        #initializing matrix
         for i in range(self.num_city):
             self.phe_mat.append([])
             for j in range(self.num_city):
@@ -77,20 +79,21 @@ class TSP(object):
                     self.phe_mat[i].append(float(0.0))
 
     def update_temp(self):
-
-
+        #updating temporary pheromone map
         for i in range(self.num_city):
             self.temp.append([])
             for j in range(self.num_city):
                 self.temp[i].append(0.0)
 
     def gen_population(self):
+        #generating ant's population
         for i in range(self.num_ants):
             ant = Ant(i)
             self.ants.append(ant)
             ant.random_spawn()
 
     def calculate_hvalue(self,src,dst):
+        #calculating the heuristic value
         if (src != dst ) and (self.dist_mat[src][dst] != 0):
             dist=self.dist_mat[src][dst]
             return 1/dist
@@ -98,7 +101,7 @@ class TSP(object):
             return 0.0
 
     def update_phemat(self):
-
+        #updating pheromone map
         for ant in self.ants:
             path=ant.path
             for k in range(len(path)-2):
@@ -137,12 +140,13 @@ class TSP(object):
 
 
     def one_iter(self):
+        #one generation of ant
         self.gen_population()
         for ant in self.ants:
 
-            # print(step)
             while len(ant.path) < self.num_city:
                 next_city = self.choose_nextcity(ant)
+                #if an ant can't visit all the cities, abandom the ant
                 if (next_city == None):
                     ant = None
                     break
@@ -156,6 +160,7 @@ class TSP(object):
             self.ants.clear()
 
     def run(self):
+        #runing optimization until max iteration
         while (self.iter < self.max_iter):
             self.one_iter()
             self.iter += 1
@@ -163,6 +168,7 @@ class TSP(object):
 
 
     def choose_best(self,ants):
+        #choosing the minimum cost path from ants
         min=float("inf")
         cost=0
         min_path=None
@@ -178,6 +184,7 @@ class TSP(object):
 
 
 def rotate(list):
+    #rotating the order of the path to have the starting city in the front
     list.pop()
     rotate_val = 0
     for i in range(len(list)):
@@ -190,7 +197,7 @@ def rotate(list):
 
 
 def tsp(mtx):
-
+    #running tsp slover
     if len(mtx) < 2:
         return [0]
 
@@ -207,8 +214,6 @@ def tsp(mtx):
     tsp_solver = TSP()
     path = tsp_solver.run()
     ret = rotate(path)
-    # for i in range(len(ret) - 2):
-    #     print(f'{mtx[ret[i]][ret[i+1]]}')
     return ret
 
 
